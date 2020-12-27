@@ -40,20 +40,20 @@ in lengthy, back-and-forth discussions on multiple message boards.
 So let me break down these points for you, in Q & A format below:  
 
 
-### 1. What is NLL Loss in pytorch? 
+### 1. What is NLL (Negative log loss) Loss in pytorch? 
    **The short answer**: The NLL loss function in pytorch is **NOT really** the NLL Loss.
 
    The textbook definition of NLL Loss is the sum of negative log of the correct class:
       
       
- <img src="https://render.githubusercontent.com/render/math?math=$\t{NLL Loss=}-\\sum(y_i* log(p_i))">
+ <img src="https://render.githubusercontent.com/render/math?math=$\{NLL Loss=}-\\sum(y_i* log(p_i))">
    
    In comparison, the pytorch implementation takes for granted that x<sub>i</sub> = log(p<sub>i</sub>), where x<sub>i</sub> 
    is the input. (Note: The default pytorch implementation calculates the mean loss (*reduction=mean*). What you usually
    see in textbooks/wikipedia is the sum of all losses (i.e. without 1/n) (*reduction=sum* in pytorch)):  
    
 
- <img src="https://render.githubusercontent.com/render/math?math=$\t{NLL Loss=}-\\sum(y_i* x_i)">
+ <img src="https://render.githubusercontent.com/render/math?math=$\{NLL Loss=}-\\sum(y_i* x_i)">
 
    
    where <img src="https://render.githubusercontent.com/render/math?math=x=log(p_i)">, and y is still the ground truth.  
