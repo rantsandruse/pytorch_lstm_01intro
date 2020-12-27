@@ -1,6 +1,6 @@
-# Learning Pytorch in a week - Monday: Train a basic LSTM tagger
+# Learning Pytorch in Ten Days: Day 1 - Train a basic LSTM tagger
 
-## Foreword
+##  Foreword
 
 As I was teaching myself pytorch for applications in deep learning/NLP, I noticed that there are certainly no lacking of 
 tutorials and examples. However, there's a consistent pattern of focusing more on the how's than why's. But learning 
@@ -32,8 +32,7 @@ would inspire you to think critically, to dig effectively and to research thorou
 after each tutorial, which hopefully can help you achieve these goals. 
 
 Without further ado, let's start with **the Day 1 tutorial**.      
-The Day 1 tutorial is at beginner level, with the majority of the content based on [the pytorch LSTM tutorial]
-(https://pytorch.org/tutorials/beginner/nlp/sequence_models_tutorial.html) from [the pytorch official website](pytorch.org).
+The Day 1 tutorial is at beginner level, with the majority of the content based on [the pytorch LSTM tutorial](https://pytorch.org/tutorials/beginner/nlp/sequence_models_tutorial.html) from [the pytorch official website](pytorch.org).
 The original tutorial is quite straightforward to follow. But while I was going through it, I noticed that a few non-trivial
 details were skimmed over. Googling these details suggested that they are oftentimes a source of confusion, and results 
 in lengthy, back-and-forth discussions on multiple message boards. 
@@ -45,16 +44,19 @@ So let me break down these points for you, in Q & A format below:
    **The short answer**: The NLL loss function in pytorch is **NOT really** the NLL Loss.
 
    The textbook definition of NLL Loss is the sum of negative log of the correct class:
-   
-   NLL loss = sum(y<sub>i</sub> * log(p<sub>i</sub>)) 
+      
+      
+ <img src="https://render.githubusercontent.com/render/math?math=$\t{NLL Loss=}-\\sum(y_i* log(p_i))">
    
    In comparison, the pytorch implementation takes for granted that x<sub>i</sub> = log(p<sub>i</sub>), where x<sub>i</sub> 
    is the input. (Note: The default pytorch implementation calculates the mean loss (*reduction=mean*). What you usually
    see in textbooks/wikipedia is the sum of all losses (i.e. without 1/n) (*reduction=sum* in pytorch)):  
    
-   Pytorch NLL loss(x, y) = -1/n (sum(y<sub>i</sub> * x<sub>i</sub>))
+
+ <img src="https://render.githubusercontent.com/render/math?math=$\t{NLL Loss=}-\\sum(y_i* x_i)">
+
    
-   where x is the log of predicted softmax probability, and y is the ground truth.  
+   where <img src="https://render.githubusercontent.com/render/math?math=x=log(p_i)">, and y is still the ground truth.  
    This means your input **has already gone through the log_softmax transformation BEFORE** you feed it into the NLL function 
    in pytorch.
 
@@ -126,8 +128,8 @@ In this example, When *target = [0,0]*, both ground truth classifications belong
    by using the log-sum-exp trick. 
    
    Briefly, it calculates: 
-         
-   y = log(sum(e<sup>xi</sup>)) =  a + log(sum(e^(<sup>xi-a</sup>))
+
+<img src="https://render.githubusercontent.com/render/math?math=y=log\\sum(e^{x_i})=a %2B log\\sum(e^{x_i-a})">
 
    Thus avoiding the numerical explosion of e<sup>xi</sup>. More details and derivations are given [here](https://www.xarg.org/2016/06/the-log-sum-exp-trick-in-machine-learning/).
    So shall we use log_softmax + NLL loss or Cross entropy loss moving forward? As explained in [this pytorch discussion thread](https://discuss.pytorch.org/t/trouble-getting-probability-from-softmax/26764/4), 
@@ -176,4 +178,7 @@ In the next tutorial, I will show the how's and why's of training an LSTM tagger
 3. https://ocw.mit.edu/courses/mathematics/18-05-introduction-to-probability-and-statistics-spring-2014/readings/MIT18_05S14_Reading10b.pdf
 4. https://nowak.ece.wisc.edu/ece830/ece830_spring15_lecture7.pdf
 5. https://leimao.github.io/blog/Cross-Entropy-KL-Divergence-MLE 
+
+
+# https://rpruim.github.io/s341/S19/from-class/MathinRmd.html
     
