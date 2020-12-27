@@ -180,5 +180,4 @@ In the next tutorial, I will show the how's and why's of training an LSTM tagger
 5. https://leimao.github.io/blog/Cross-Entropy-KL-Divergence-MLE 
 
 
-# https://rpruim.github.io/s341/S19/from-class/MathinRmd.html
     
