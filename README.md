@@ -23,7 +23,7 @@ skepticism or the intuition to discern noise from signal.
 
 So I developed this set of beginner to intermediate level tutorials, where I would provide examples you can run, AND 
 discuss the theoretical and practical motivations, the alternatives, the trade-offs, the potential improvements, and the 
-trends. We will progress from the simple 10-line tutorial from [pytorch.org](pytorch.org) to applying transfer learning with one 
+trends. We will progress from the simple 10-line tutorial from [pytorch.org](https://pytorch.org) to applying transfer learning with one 
 of the state-of-art models to a sentiment classification problem. 
 
 While I tried my best to convey the how's and the why's in a series of short blog posts, there are a lot of important 
