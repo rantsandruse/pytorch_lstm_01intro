@@ -3,22 +3,22 @@
 ##  Foreword
 
 As I was teaching myself pytorch for applications in deep learning/NLP, I noticed that there are certainly no lacking of 
-tutorials and examples. However, there's a consistent pattern of focusing more on the how's than why's. But learning 
+tutorials and examples. However, there's a consistent pattern of focusing more on the hows' than the whys'. But learning 
 **the how's without understanding why's is very dangerous**, especially for deep learning:
 
-First of all, unlike experimental sciences where your experiments either succeed or fail, your first forays into deep 
+Unlike experimental sciences where your experiments either succeed or fail, your first forays into deep 
 learning may look like them succeed because the code "runs" and the result looks "reasonably good". But it could be suboptimal 
 or worse still, incorrect. And it might be hard to pinpoint what went wrong, given the relatively low interpretability 
-of deep learning models. 
+of deep learning models and not knowing how to poke around as a novice. 
 
-Second (but no less important), knowing the how's alone will let you practice deep learning, but won't help you understand 
-deep learning and further iterate & innovate. In order to innovate on the existing methodologies (or at least apply them 
+Besides, knowing the hows' alone will let you practice deep learning to a certain extent, but won't help you understand 
+deep learning and further iterate & innovate. In order to build on the existing methodologies (or at least apply them 
 correctly), you need to dig a little (or a lot) deeper: Understand the theoretical and practical motivations. Identify 
 the alternatives. Evaluate the trade-offs. Grind over the shortfalls of your model and how you may improve them. Observe
 and summarize the research trends over time and think about what's next. 
 
 Unfortunately, the burden of a) verify that your code/method is correct b) identify the best resource to further your 
-learning falls on the bright-eyed, bushy-tailed students, who most likely have yet to develop the mindset of scientific 
+learning falls on the bright-eyed, bushy-tailed students, who very likely have yet to develop the mindset of scientific 
 skepticism or the intuition to discern noise from signal. 
 
 So I developed this set of beginner to intermediate level tutorials, where I would provide examples you can run, AND 
@@ -39,14 +39,14 @@ in lengthy, back-and-forth discussions on multiple message boards.
 
 So let me break down these points for you, in Q & A format below:  
 ### Setup and Preparation 
-I ran all my tutorials from *Ubuntu 18.04* with *python 3.8.5*. For all the required libraries, please check out *requirements.txt*. You can install them via:
+I ran all my tutorials with *python 3.8.5*. For all the required libraries, please check out *requirements.txt*. You can install them via:
 
       conda install --file requirements.txt
 
-(Note: you could also use pip, but I find it easier to do conda install for pytorch and related libraries)
-If you've never heard of LSTM, I'd also recommend taking a look at [Colah's blog](https://colah.github.io/posts/2015-08-Understanding-LSTMs/), which 
-provides great visualizations and an intuitive understanding of RNN/LSTM architectures. Briefly, LSTM is a type of recurrent neural network 
-architecture amenable to processing sequences, and has grown to be an extremely popular choice for a wide range of applications, 
+(Note: you could also use pip, but I found it easier to do conda install for pytorch and related libraries)
+If you've never heard of LSTM, I'd also recommend taking a look at [Colah's blog](https://colah.github.io/posts/2015-08-Understanding-LSTMs/) first, 
+which provides great visualizations and an intuitive understanding of RNN/LSTM architectures. Briefly, LSTM is a type of recurrent neural network 
+architecture well suited for processing sequences, and has grown to be an extremely popular choice for a wide range of applications, 
 including but not limited to speech recognition, natural language translation, and intrusion systems detection. 
 
 ### How to preprocess inputs 
@@ -158,8 +158,8 @@ Next, we will define our forward pass as part of the *LSTMTagger* model:
                   tag_scores = F.log_softmax(tag_scores, dim=1)
               return tag_scores
 
-At this point, you might feel a little overwhelmed by **NLL Loss**, **Cross entropy loss** and **softmax** function. And we will 
-go over them together: 
+At this point, you might feel a little overwhelmed by a few new concepts, including **NLL Loss**, **Cross entropy loss** 
+and **softmax** function. Let's go over them together: 
 #### 1. What is NLL (Negative log loss) Loss in pytorch? 
    **The short answer**: The NLL loss function in pytorch is **NOT really** the NLL Loss.
 
@@ -171,11 +171,9 @@ go over them together:
    In comparison, the pytorch implementation takes for granted that x<sub>i</sub> = log(p<sub>i</sub>), where x<sub>i</sub> 
    is the input. (Note: The default pytorch implementation calculates the mean loss (*reduction=mean*). What you usually
    see in textbooks/wikipedia is the sum of all losses (i.e. without 1/n) (*reduction=sum* in pytorch)):  
-   
 
  <img src="https://render.githubusercontent.com/render/math?math=NLLLoss=-\\sum(y_i* x_i)">
-
-   
+ 
    where <img src="https://render.githubusercontent.com/render/math?math=x=log(p_i)">, and y is still the ground truth.  
    This means your input **has already gone through the log_softmax transformation BEFORE** you feed it into the NLL function 
    in pytorch.
@@ -189,12 +187,13 @@ To gain more intuition, take a look at the example provided in [main_example.py]
       nll_loss = F.nll_loss(log_softmax_prob, target)
       print("NLL loss is:", nll_loss)
 
-In this example, When *target = [0,0]*, both ground truth classifications belong to the first class:
+In this example, When *target = [0,0]*, both ground truth classifications (i.e. the label) belong to the first class:
 
       y1 = [1,0], y2 = [1,0]
       x1 = log(p1) = [log(0.8), log(0.2)] = [-0.22, -1.61]
       x2 = log(p2) = [log(0.6), log(0.4)] = [-0.51, -0.91]
       pytorch_NLL_loss = -1/n (sum(yi * xi)) = 1/2 * (-0.22*1 - 0.51*1) = 0.36
+
 #### 2. What is softmax? 
    Softmax function, or the normalized exponential function, is often used as the last activation function in a neural network. The
 standard softmax function is given as: 
@@ -207,8 +206,7 @@ standard softmax function is given as:
    <img src="https://render.githubusercontent.com/render/math?math=$P_1=\frac{e^{-b0}}{1%2Be^{-b0}}$">
 
 As you might have realized by now, softmax function is simply a more generalized logistic function in 2 or more dimensions. 
-
-   
+ 
 #### 2. What is the relationship between NLL Loss, log_softmax and cross entropy loss in pytorch? 
    **The short answer**:  *NLL_loss* + *log_softmax* = *cross_entropy_loss* in pytorch. 
 
