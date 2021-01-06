@@ -1,4 +1,4 @@
-# Learning Pytorch in Ten Days: Day 1 - How to train a basic LSTM tagger 
+# Learning Pytorch in Ten Days: Day 1 - How to train a basic LSTM tagger (RFC)
 And the relationship between NLL Loss, cross entropy loss and softmax... 
 
 ##  Introduction 
@@ -35,7 +35,7 @@ To set up your environment with *pytorch* and associated libraries, you can inst
 (Note: you could also use pip, but I found it easier to do conda install for pytorch and related libraries)
 If you've never heard of RNN/LSTM, I'd also recommend taking a look at [Colah's blog](https://colah.github.io/posts/2015-08-Understanding-LSTMs/) first.
 For some intuitive understanding of negative log loss and softmax function, you can check out [this blogpost](https://ljvmiranda921.github.io/notebook/2017/08/13/softmax-and-the-negative-log-likelihood/). 
-You should also try to read/run main.ipynb ()  
+You should also try to read/run [main.ipynb](https://github.com/rantsandruse/pytorch_lstm_01intro/blob/main/main.ipynb)  
 ## Improvements & modification over original code: 
 
 ### How to preprocess inputs 
