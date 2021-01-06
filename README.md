@@ -30,9 +30,9 @@ Instead of repeating what was given there, I will focus on i. improving/providin
 ## Setup and prep for beginners    
 To set up your environment with *pytorch* and associated libraries, you can install them via:
 
-      conda install --file requirements.txt
+      conda install --yes --file requirements.txt
 
-(Note: you could also use pip, but I found it easier to do conda install for pytorch and related libraries)
+(Note: you could also use pip, but I found it easier to do a conda install for pytorch and related libraries)
 If you've never heard of RNN/LSTM, I'd also recommend taking a look at [Colah's blog](https://colah.github.io/posts/2015-08-Understanding-LSTMs/) first.
 For some intuitive understanding of negative log loss and softmax function, you can check out [this blogpost](https://ljvmiranda921.github.io/notebook/2017/08/13/softmax-and-the-negative-log-likelihood/). 
 You should also try to read/run [main.ipynb](https://github.com/rantsandruse/pytorch_lstm_01intro/blob/main/main.ipynb)  
