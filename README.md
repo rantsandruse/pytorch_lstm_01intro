@@ -27,7 +27,7 @@ Without further ado, let's start with **the Day 1 tutorial**.
 This tutorial is at beginner level, with the majority of the content based on [the basic pytorch LSTM tutorial](https://pytorch.org/tutorials/beginner/nlp/sequence_models_tutorial.html) from [the pytorch official website](pytorch.org).
 Instead of repeating what was given there, I will focus on i. improving/providing alternatives for the existing code 2. explain the relevant whys'
 
-### Setup and prep for beginners    
+## Setup and prep for beginners    
 To set up your environment with *pytorch* and associated libraries, you can install them via:
 
       conda install --file requirements.txt
@@ -36,9 +36,9 @@ To set up your environment with *pytorch* and associated libraries, you can inst
 If you've never heard of RNN/LSTM, I'd also recommend taking a look at [Colah's blog](https://colah.github.io/posts/2015-08-Understanding-LSTMs/) first.
 For some intuitive understanding of negative log loss and softmax function, you can check out [this blogpost](https://ljvmiranda921.github.io/notebook/2017/08/13/softmax-and-the-negative-log-likelihood/). 
 You should also try to read/run main.ipynb ()  
-### Improvements & modification over original code: 
+## Improvements & modification over original code: 
 
-#### How to preprocess inputs 
+### How to preprocess inputs 
 Instead of hard coding the input data into your python script (which the original tutorial did for illustrative purposes), I set up a small csv 
 file for input instead. This is to set the stage for reading real data instead of mock inputs.  
 
@@ -92,7 +92,7 @@ Output:
       tag_to_ix: {'DET': 0, 'NN': 1, 'V': 2}
 
 
-#### How to set up a basic LSTM model
+### How to set up a basic LSTM model
 For the LSTMTagger model setup, very little modifications were made, except that I added a couple of lines 
 to show how to use NLL loss or cross entropy loss: 
 
@@ -108,7 +108,7 @@ Next, we will define our forward pass as part of the *LSTMTagger* model:
               return tag_scores
 
 
-#### How to train your model and use it for prediction
+### How to train your model and use it for prediction
 In comparison to the original tutorial, we consolidated the code into *train* and *test* functions in [train.py](https://github.com/rantsandruse/pytorch_lstm_01intro/blob/main/main_example.py): 
 
       def train(model, loss_fn, training_data, word_to_ix, tag_to_ix, optimizer, epoch=10):
@@ -175,10 +175,10 @@ output:
 
 
 
-### Relationship between NLL Loss, softmax and cross entropy loss 
+## Relationship between NLL Loss, softmax and cross entropy loss 
 To fully understanding the model loss function and forward pass, a few terms (**NLL loss, softmax, cross entropy loss**) 
 their relationship need to be clarified. 
-#### 1. What is NLL (Negative log loss) Loss in pytorch? 
+### 1. What is NLL (Negative log loss) Loss in pytorch? 
    **The short answer:** The NLL loss function in pytorch is **NOT really** the NLL Loss.
 
    The textbook definition of NLL Loss is the sum of negative log of the correct class:
@@ -213,7 +213,7 @@ In this example, When *target = [0,0]*, both ground truth labels belong to the f
       x2 = log(p2) = [log(0.6), log(0.4)] = [-0.51, -0.91]
       pytorch_NLL_loss = -1/n (sum(yi * xi)) = 1/2 * (-0.22*1 - 0.51*1) = 0.36
 
-#### 2. What is the relationship between NLL Loss, log_softmax and cross entropy loss in pytorch? 
+### 2. What is the relationship between NLL Loss, log_softmax and cross entropy loss in pytorch? 
    **The short answer:**  *NLL_loss(log_softmax(x))* = *cross_entropy_loss(x)* in pytorch. 
 
    The *LSTMTagger* in the [original tutorial](https://pytorch.org/tutorials/beginner/nlp/sequence_models_tutorial.html) **is using 
@@ -252,7 +252,7 @@ In this example, When *target = [0,0]*, both ground truth labels belong to the f
             tag_prob = F.softmax(tag_scores)
 
         
-#### 3. Why doesn't pytorch provide us with a loss function, so that we can obtain softmax from the forward pass output directly? 
+### 3. Why doesn't pytorch provide us with a loss function, so that we can obtain softmax from the forward pass output directly? 
    **The short answer**: Mitigate numerical instability. 
 
    It always seems a little cumbersome that neither NLL loss/log_softmax combo nor Cross entropy loss function takes the softmax 
@@ -283,7 +283,7 @@ In this example, When *target = [0,0]*, both ground truth labels belong to the f
    instability and is therefore **strongly discouraged**. For future tutorials, I will stick to the cross entropy loss functions provided by pytorch.    
 
 
-#### 4. Why should we choose cross entropy loss function over the others, e.g. MSE loss, hinge loss, etc?  
+### 4. Why should we choose cross entropy loss function over the others, e.g. MSE loss, hinge loss, etc?  
    **The short answer**: You can be derive it via MLE([maximum likeihood estimation](https://ocw.mit.edu/courses/mathematics/18-05-introduction-to-probability-and-statistics-spring-2014/readings/MIT18_05S14_Reading10b.pdf)), 
    or think of it in terms of KL divergence([Kullback-Leibler divergence](https://nowak.ece.wisc.edu/ece830/ece830_spring15_lecture7.pdf)). 
 
@@ -296,26 +296,21 @@ In this example, When *target = [0,0]*, both ground truth labels belong to the f
    is well illustrated in [this blog post by Lei Mao](https://leimao.github.io/blog/Cross-Entropy-KL-Divergence-MLE/) . 
 
 
-### Quick house-keeping notes: 
+## Quick house-keeping notes: 
 1. The quick example (see [main_example.py](https://github.com/rantsandruse/pytorch_lstm_01intro/blob/main/main_example.py)) suggests two alternatives for feeding in data. The first solution allows 
    for feeding individual words sequentially. The second one allows you to provide all the inputs in one tensor. I would 
    personally recommend the second one. 
 2. The main improvements/changes from the original tutorial are shown in [main.py](https://github.com/rantsandruse/pytorch_lstm_01intro/blob/main/main.py)
+   - I added code to read from an .csv file instead of hard coding the input data inline. 
+   - I used a *seqs_to_dictionary* function instead of hard code for tag_to_ix dictionary.
+   - I added a demonstration of the relationship between NLL loss and Cross entropy loss
+   - I implemented very basic "train" and "test" functions. 
+   - I added an example of inference for non-training data.
    
-   a. I added code to read from an .csv file instead of hard coding the input data inline. 
-      
-   b. I used a *seqs_to_dictionary* function instead of hard code for tag_to_ix dictionary.
-
-   c. I added a demonstration of the relationship between NLL loss and Cross entropy loss
-   
-   d. I implemented very basic "train" and "test" functions.
-
-   e. I added an example of inference for non-training data.
-   
-### What's next 
+## What's next 
 In the next tutorial, I will show the how's and why's of training an LSTM tagger in mini-batches.    
 
-### Further reading 
+## Further reading 
 1. [Numerical instability of softmax](https://medium.com/swlh/are-you-messing-with-me-softmax-84397b19f399)
 2. [Numerical trick for softmax](https://www.xarg.org/2016/06/the-log-sum-exp-trick-in-machine-learning/)   
 3. [Maximum likehood estimate](https://ocw.mit.edu/courses/mathematics/18-05-introduction-to-probability-and-statistics-spring-2014/readings/MIT18_05S14_Reading10b.pdf) 
@@ -323,7 +318,7 @@ In the next tutorial, I will show the how's and why's of training an LSTM tagger
 5. [Relationship between cross entropy, KL divergence and MLE](https://leimao.github.io/blog/Cross-Entropy-KL-Divergence-MLE) 
 6. [Relationship between negative log loss and softmax](https://ljvmiranda921.github.io/notebook/2017/08/13/softmax-and-the-negative-log-likelihood/)
 
-### Links to all tutorials (TBD):
+## Links to all tutorials (TBD):
 
 **Day 1** - How to train a basic LSTM Tagger (and why use NLL Loss, Cross entropy loss and softmax functions)
 
