@@ -3,24 +3,18 @@
 ##  Introduction 
 
 As I was teaching myself pytorch for applications in deep learning/NLP, I noticed that there are certainly no lacking of 
-tutorials and examples. However, I consistently find more explanations of the hows' than whys'. 
+tutorials and examples. However, I consistently find a lot more explanations of the hows' than the whys'. 
 
-I believe that **knowing the how's without understanding why's is quite dangerous**. It's like applying the chainsaw without 
+I believe that **knowing the how's without understanding the whys' is quite dangerous**. It's like applying a chainsaw without 
 reading the section about when not to use it. Besides, unlike experimental sciences where your experiments either succeed 
 or fail, botched deep learning experiments **may look like they succeed** if the code "runs" and the result looks "reasonably good". 
-By "botched" I mean suboptimal or worse still, fundmentally incorrect. 
+By "botched" I mean suboptimal or worse still, fundamentally incorrect. 
 
-The other reason for knowing the whys' is innovation. Without understanding the fundementals, it's hard to grasp the 
-theoretical and practical motivations or identify the limitations of the state-of-art methodologies, both of which are critical steps to moving the field forward. 
+The other reason for knowing the whys' is innovation. Without understanding the fundamentals, it's hard to grasp the 
+theoretical and practical motivations or identify the limitations of the state-of-art methodologies, both of which are critical steps to 
+improving the status quo. 
 
-
-Besides, knowing the hows' alone will let you practice deep learning to a certain extent, but won't help you understand 
-deep learning and further iterate & innovate. In order to build on the existing methodologies (or at least apply them 
-correctly), you need to dig a little (or a lot) deeper: Understand the theoretical and practical motivations. Identify 
-the alternatives. Evaluate the trade-offs. Grind over the shortfalls of your model and how you may improve them. Observe
-and summarize the research trends over time and think about what's next. 
-
-So I developed this set of beginner to intermediate level tutorials, where I hope to provide a balanced account of the hows' **AND** 
+So I developed this set of beginner-to-intermediate level tutorials, where I hope to provide a balanced account of the hows' **AND** 
 the whys'. At the end of 10 days, I hope that you will be inspired to: Understand the theoretical and practical motivations. 
 Identify the alternatives. Evaluate the trade-offs. Grind over the shortfalls of your model and how you may improve them. Observe
 and summarize the research trends over time and brainstorm over what's next. 
@@ -50,18 +44,19 @@ and summarize the research trends over time and brainstorm over what's next.
 
 
 Without further ado, let's start with **the Day 1 tutorial**.      
-The Day 1 tutorial is at beginner level, with the majority of the content based on [the basic pytorch LSTM tutorial](https://pytorch.org/tutorials/beginner/nlp/sequence_models_tutorial.html) from [the pytorch official website](pytorch.org).
+
+This tutorial is at beginner level, with the majority of the content based on [the basic pytorch LSTM tutorial](https://pytorch.org/tutorials/beginner/nlp/sequence_models_tutorial.html) from [the pytorch official website](pytorch.org).
 Instead of repeating what was given there, I will focus on i. improving/providing alternatives for the existing code 2. explain the relevant whys'
 
-### Setup and prep for absolute beginners    
+### Setup and prep for beginners    
 To set up your environment with *pytorch* and associated libraries, you can install them via:
 
       conda install --file requirements.txt
 
 (Note: you could also use pip, but I found it easier to do conda install for pytorch and related libraries)
-
 If you've never heard of RNN/LSTM, I'd also recommend taking a look at [Colah's blog](https://colah.github.io/posts/2015-08-Understanding-LSTMs/) first.
-For some intuitive understanding of negative log loss and softmax function, you can check out [this blogpost](https://ljvmiranda921.github.io/notebook/2017/08/13/softmax-and-the-negative-log-likelihood/).      
+For some intuitive understanding of negative log loss and softmax function, you can check out [this blogpost](https://ljvmiranda921.github.io/notebook/2017/08/13/softmax-and-the-negative-log-likelihood/). 
+You should also try to read/run main_v2.ipynb.  
 ### Improvements & modification over original code: 
 
 #### How to preprocess inputs 
@@ -85,6 +80,7 @@ Next, I read in the raw data, resulting in *training_data* in the same format as
       training_data = list(zip(texts, tags_list))
 
 TODO: provide output 
+
 Then I consolidated the process of mapping token to index into a single function for both words and tags: 
       
       def seqs_to_dictionary(training_data: list):
@@ -107,6 +103,7 @@ Then I consolidated the process of mapping token to index into a single function
       word_to_ix, tag_to_ix = seqs_to_dictionary(training_data)
 
 TODO: provide sample output 
+
 ### How to set up a basic LSTM model
 For the LSTMTagger model setup, very little modifications were made, except that I added a couple of lines 
 to show how to use NLL loss or cross entropy loss: 
@@ -122,8 +119,57 @@ Next, we will define our forward pass as part of the *LSTMTagger* model:
               # modification ends.    
               return tag_scores
 
-To fully understanding the model loss function and forward pass, a few terms (**NLL loss, cross entropy loss, softmax**) 
-and their relationship need to be clarified here:  
+
+### How to train your model and use it for prediction
+In comparison to the original tutorial, we consolidated the code into *train* and *test* functions in [train.py](https://github.com/rantsandruse/pytorch_lstm_01intro/blob/main/main_example.py): 
+
+      def train(model, loss_fn, training_data, word_to_ix, tag_to_ix, optimizer, epoch=10):
+         for epoch in range(epoch):  # again, normally you would NOT do 300 epochs, it is toy data
+           for sentence, tags in training_data:
+               print(sentence)
+               print(tags)
+               # Step 1. Remember that Pytorch accumulates gradients.
+               # We need to clear them out before each instance
+               model.zero_grad()
+   
+               # Step 2. Get our inputs ready for the network, that is, turn them into
+               # Tensors of word indices.
+               sentence_in = seq_to_embedding(sentence, word_to_ix)
+               targets = seq_to_embedding(tags, tag_to_ix)
+   
+               # Step 3. Run our forward pass.
+               tag_scores = model(sentence_in)
+               # Step 4. Compute the loss, gradients, and update the parameters by
+               #  calling optimizer.step()
+               loss = loss_fn(tag_scores, targets)
+               print("loss for epoch ", epoch, ":", loss)
+               loss.backward()
+               optimizer.step()
+
+For running inference, we define the test function:
+      
+      def test(testing_data, model, word_to_ix):
+         
+          with torch.no_grad():
+              inputs = seq_to_embedding(testing_data.split(), word_to_ix)
+              tag_scores = model(inputs)
+              # Now evaluate probabilistic output
+              # For either NLL loss or cross entropy los
+              if model.is_nll_loss:
+                  # Use NLL loss
+                  print("Using NLL Loss:")
+                  tag_prob = tag_scores.exp()
+              else:
+                  # Use cross entropy loss
+                  print("Using cross entropy loss")
+                  tag_prob = F.softmax(tag_scores)
+      
+            print(tag_prob)
+            return tag_prob
+
+### Relationship between NLL Loss, softmax and cross entropy loss 
+To fully understanding the model loss function and forward pass, a few terms (**NLL loss, softmax, cross entropy loss**) 
+their relationship need to be clarified. 
 #### 1. What is NLL (Negative log loss) Loss in pytorch? 
    **The short answer:** The NLL loss function in pytorch is **NOT really** the NLL Loss.
 
@@ -233,54 +279,7 @@ In this example, When *target = [0,0]*, both ground truth labels belong to the f
    is well illustrated in [this blog post by Lei Mao](https://leimao.github.io/blog/Cross-Entropy-KL-Divergence-MLE/) . 
 
 
-### How to train your model and use it for prediction
-In comparison to the original tutorial, we consolidated the code into *train* and *test* functions in [train.py](https://github.com/rantsandruse/pytorch_lstm_01intro/blob/main/main_example.py): 
-
-      def train(model, loss_fn, training_data, word_to_ix, tag_to_ix, optimizer, epoch=10):
-         for epoch in range(epoch):  # again, normally you would NOT do 300 epochs, it is toy data
-           for sentence, tags in training_data:
-               print(sentence)
-               print(tags)
-               # Step 1. Remember that Pytorch accumulates gradients.
-               # We need to clear them out before each instance
-               model.zero_grad()
-   
-               # Step 2. Get our inputs ready for the network, that is, turn them into
-               # Tensors of word indices.
-               sentence_in = seq_to_embedding(sentence, word_to_ix)
-               targets = seq_to_embedding(tags, tag_to_ix)
-   
-               # Step 3. Run our forward pass.
-               tag_scores = model(sentence_in)
-               # Step 4. Compute the loss, gradients, and update the parameters by
-               #  calling optimizer.step()
-               loss = loss_fn(tag_scores, targets)
-               print("loss for epoch ", epoch, ":", loss)
-               loss.backward()
-               optimizer.step()
-
-For running inference, we define the test function:
-      
-      def test(testing_data, model, word_to_ix):
-         
-          with torch.no_grad():
-              inputs = seq_to_embedding(testing_data.split(), word_to_ix)
-              tag_scores = model(inputs)
-              # Now evaluate probabilistic output
-              # For either NLL loss or cross entropy los
-              if model.is_nll_loss:
-                  # Use NLL loss
-                  print("Using NLL Loss:")
-                  tag_prob = tag_scores.exp()
-              else:
-                  # Use cross entropy loss
-                  print("Using cross entropy loss")
-                  tag_prob = F.softmax(tag_scores)
-      
-            print(tag_prob)
-            return tag_prob
-
-### Quick notes: 
+### Quick house-keeping notes: 
 1. The quick example (see [main_example.py](https://github.com/rantsandruse/pytorch_lstm_01intro/blob/main/main_example.py)) suggests two alternatives for feeding in data. The first solution allows 
    for feeding individual words sequentially. The second one allows you to provide all the inputs in one tensor. I would 
    personally recommend the second one. 
@@ -297,9 +296,6 @@ For running inference, we define the test function:
    a. I added code to read from an .csv file instead of hard coding the input data inline. 
    
    b. I implemented very basic "train" and "test" functions.
-      Training and testing utilities are essential to any machine learning pipelines. The "train" function takes in custom 
-      data set and custom loss function as arguments, and trains model over a number of epochs. The "test" function freezes 
-      the gradient with torch.nograd, and outputs the inference scores.  
    
 ### What's next 
 In the next tutorial, I will show the how's and why's of training an LSTM tagger in mini-batches.    
