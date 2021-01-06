@@ -114,7 +114,7 @@ Output:
       tag_to_ix: {'DET': 0, 'NN': 1, 'V': 2}
 
 
-### How to set up a basic LSTM model
+#### How to set up a basic LSTM model
 For the LSTMTagger model setup, very little modifications were made, except that I added a couple of lines 
 to show how to use NLL loss or cross entropy loss: 
 
@@ -130,7 +130,7 @@ Next, we will define our forward pass as part of the *LSTMTagger* model:
               return tag_scores
 
 
-### How to train your model and use it for prediction
+#### How to train your model and use it for prediction
 In comparison to the original tutorial, we consolidated the code into *train* and *test* functions in [train.py](https://github.com/rantsandruse/pytorch_lstm_01intro/blob/main/main_example.py): 
 
       def train(model, loss_fn, training_data, word_to_ix, tag_to_ix, optimizer, epoch=10):
