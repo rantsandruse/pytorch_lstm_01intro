@@ -1,4 +1,5 @@
-# Learning Pytorch in Ten Days: Day 1 - How to train a basic LSTM tagger (and how to use NLL Loss, Cross entropy loss and softmax)
+# Learning Pytorch in Ten Days: Day 1 - How to train a basic LSTM tagger 
+(and the relationship between NLL Loss, cross entropy loss and softmax)
 
 ##  Introduction 
 
@@ -78,8 +79,11 @@ Next, I read in the raw data, resulting in *training_data* in the same format as
       tags_list = [t.split() for t in training_data_raw["tag"].tolist()]
 
       training_data = list(zip(texts, tags_list))
+      print(training_data) 
 
-TODO: provide output 
+Output: 
+
+      [(['The', 'dog', 'ate', 'the', 'apple'], ['DET', 'NN', 'V', 'DET', 'NN']), (['The', 'man', 'read', 'the', 'book'], ['DET', 'NN', 'V', 'DET', 'NN'])]
 
 Then I consolidated the process of mapping token to index into a single function for both words and tags: 
       
@@ -101,8 +105,14 @@ Then I consolidated the process of mapping token to index into a single function
          return word_to_ix, tag_to_ix
 
       word_to_ix, tag_to_ix = seqs_to_dictionary(training_data)
+      print(word_to_ix) 
+      print(tag_to_ix) 
 
-TODO: provide sample output 
+Output:
+
+      word_to_ix: {'The': 0, 'dog': 1, 'ate': 2, 'the': 3, 'apple': 4, 'man': 5, 'read': 6, 'book': 7}
+      tag_to_ix: {'DET': 0, 'NN': 1, 'V': 2}
+
 
 ### How to set up a basic LSTM model
 For the LSTMTagger model setup, very little modifications were made, except that I added a couple of lines 
@@ -163,8 +173,7 @@ For running inference, we define the test function:
                   # Use cross entropy loss
                   print("Using cross entropy loss")
                   tag_prob = F.softmax(tag_scores)
-      
-            print(tag_prob)
+
             return tag_prob
 
 ### Relationship between NLL Loss, softmax and cross entropy loss 
