@@ -24,8 +24,6 @@ def train(model, loss_fn, training_data, word_to_ix, tag_to_ix, optimizer, epoch
     '''
     for epoch in range(epoch):  # again, normally you would NOT do 300 epochs, it is toy data
         for sentence, tags in training_data:
-            print(sentence)
-            print(tags)
             # Step 1. Remember that Pytorch accumulates gradients.
             # We need to clear them out before each instance
             model.zero_grad()
@@ -71,5 +69,5 @@ def test(testing_data, model, word_to_ix):
             print("Using cross entropy loss")
             tag_prob = F.softmax(tag_scores)
 
-        print(tag_prob)
+        #print(tag_prob)
         return tag_prob

@@ -47,9 +47,9 @@ class LSTMTagger(nn.Module):
         embeds = self.word_embeddings(sentence)
         # the dimension should be: seq_len, batch_size, -1
         lstm_out, (h, c) = self.lstm(embeds.view(len(sentence), 1, -1))
-        print("lstm out shape:", lstm_out.shape)
-        print("hshape:", h.shape)
-        print("cshape:", c.shape)
+        #print("lstm out shape:", lstm_out.shape)
+        #print("hshape:", h.shape)
+        #print("cshape:", c.shape)
         tag_scores = self.hidden2tag(lstm_out.view(len(sentence), -1))
         if self.is_nll_loss:
             tag_scores = F.log_softmax(tag_scores, dim=1)

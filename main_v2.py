@@ -1,5 +1,5 @@
 '''
-This is the improved version of main.py
+This is the improved version of main_v1.py
 The main improvements are:
 1. Now the input is a customizable csv, instead of hard coded in the text
 2. Build a customizable training function.
@@ -39,7 +39,7 @@ model = LSTMTagger(EMBEDDING_DIM, HIDDEN_DIM, len(
 
 loss_function = nn.NLLLoss() if model.is_nll_loss else nn.CrossEntropyLoss()
 optimizer = optim.SGD(model.parameters(), lr=0.1)
-print(model.parameters)
+# print(model.parameters)
 
 # get embeddings
 # See what the scores are before training
@@ -50,9 +50,11 @@ testing_data = "The dog ate the book"
 print("tag_scores before training:")
 test(testing_data, model, word_to_ix)
 
-train(model, loss_function, training_data, word_to_ix, tag_to_ix, optimizer)
+train(model, loss_function, training_data, word_to_ix, tag_to_ix, optimizer, epoch=200)
 
+# Expect: 0,
 print("tag_scores after training:")
-test(testing_data, model, word_to_ix)
+tag_prob = test(testing_data, model, word_to_ix)
+print(tag_prob)
 
 

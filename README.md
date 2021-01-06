@@ -40,7 +40,7 @@ and summarize the research trends over time and brainstorm over what's next.
 
 **Day 9** - How to add ELMO layers to your LSTM model 
 
-**Day 10** - How to tune your BERT transformer (explore the effect of batch size) 
+**Day 10** - How to tune your BERT transformer (and why batch size matters) 
 
 
 Without further ado, let's start with **the Day 1 tutorial**.      
