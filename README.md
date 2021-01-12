@@ -32,7 +32,7 @@ where an basic LSTM tagger was built and trained with a toy dataset.
 
 I will focus on:
 1. improving/providing alternatives for the existing code 
-2. explain the relevant whys' for the choice of loss functions (NLL Loss, Cross entropy loss) and activation function (Softmax). 
+2. explaining the relevant whys' for the choice of loss functions (NLL Loss, Cross entropy loss) and activation function (Softmax). 
 
 I recommend opening the tutorial side-by-side with this guide. I'll add references to the original tutorial along the way. 
 
@@ -173,7 +173,7 @@ Output:
 
 
 
-## Relationship between NLL Loss, softmax and cross entropy loss 
+## Explanation: Relationship between NLL Loss, softmax and cross entropy loss 
 To fully understand the model loss function and forward pass, a few terms (**NLL loss, softmax, cross entropy loss**) 
 and their relationship need to be clarified. 
 ### 1. What is NLL (Negative log loss) Loss in pytorch? 
