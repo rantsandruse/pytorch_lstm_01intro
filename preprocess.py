@@ -29,16 +29,16 @@ def seqs_to_dictionary(training_data: list):
     '''
     word_to_ix = {}
     tag_to_ix = {}
-    count1 = count2 = 0
+    word_count = tag_count = 0
 
     for sent, tags in training_data:
         for word in sent:
             if word not in word_to_ix:
-                word_to_ix[word] = count1
-                count1 += 1
+                word_to_ix[word] = word_count
+                word_count += 1
         for tag in tags:
             if tag not in tag_to_ix:
-                tag_to_ix[tag] = count2
-                count2 += 1
+                tag_to_ix[tag] = tag_count
+                tag_count += 1
     return word_to_ix, tag_to_ix
 

@@ -54,7 +54,7 @@ def main():
 
     train(model, loss_function, training_data, word_to_ix, tag_to_ix, optimizer, epoch=200)
 
-    # Expect: 0,
+    # Expect something like: 0, 1, 2, 0, 1
     print("tag_scores after training:")
     tag_prob = test(testing_data, model, word_to_ix)
     print(tag_prob)
