@@ -321,6 +321,7 @@ In the next tutorial, I will show the how's and why's of training an LSTM tagger
 - [Relationship between cross entropy, KL divergence and MLE](https://leimao.github.io/blog/Cross-Entropy-KL-Divergence-MLE) 
 - [Relationship between negative log loss and softmax](https://ljvmiranda921.github.io/notebook/2017/08/13/softmax-and-the-negative-log-likelihood/)
 
+## [Next tutorial](https://github.com/rantsandruse/pytorch_lstm_02minibatch) 
 
 
     
