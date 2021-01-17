@@ -1,4 +1,4 @@
-# Learning Pytorch in Ten Days: Day 1 - How to train a basic LSTM tagger 
+# Learning Pytorch in Ten Days: Day 1 - How to train an LSTM tagger 
 And the relationship between NLL Loss, cross entropy loss and softmax... 
 
 ##  Introduction 
