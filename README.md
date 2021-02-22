@@ -189,7 +189,7 @@ and their relationship need to be clarified.
    is the input. (Note: The default pytorch implementation calculates the mean loss (*reduction=mean*), if you want the 
    the textbook/wikipedia version, use *reduction=sum* instead):  
 
- <img src="https://render.githubusercontent.com/render/math?math=NLLLoss_{pytorch}=-\sum x_i">
+ <img src="https://render.githubusercontent.com/render/math?math=NLLLoss_{pytorch}=-\sum{i=1}^k x_i">
  
    where <img src="https://render.githubusercontent.com/render/math?math=x=log(p_i)">, and y is still the ground truth label.  
    This means **your input has already gone through the log_softmax transformation BEFORE you feed it into the NLL function 
