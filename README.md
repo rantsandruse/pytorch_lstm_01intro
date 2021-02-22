@@ -182,14 +182,14 @@ and their relationship need to be clarified.
    The textbook definition of NLL Loss is the sum of negative log of the correct class:
       
       
- <img src="https://render.githubusercontent.com/render/math?math=NLLLoss_{textbook}=-\sum_log(p_i)">
+ <img src="https://render.githubusercontent.com/render/math?math=NLLLoss_{textbook}=-\sum_{i=1}^k log(p_i)">
    
    Where y<sub>i</sub>=1 for the correct class, and y<sub>i</sub>=0 for the incorrect class. 
    In comparison, the pytorch implementation takes for granted that x<sub>i</sub> = log(p<sub>i</sub>), where x<sub>i</sub> 
    is the input. (Note: The default pytorch implementation calculates the mean loss (*reduction=mean*), if you want the 
    the textbook/wikipedia version, use *reduction=sum* instead):  
 
- <img src="https://render.githubusercontent.com/render/math?math=NLLLoss_{pytorch}=-\sum_x_i">
+ <img src="https://render.githubusercontent.com/render/math?math=NLLLoss_{pytorch}=-\sum x_i">
  
    where <img src="https://render.githubusercontent.com/render/math?math=x=log(p_i)">, and y is still the ground truth label.  
    This means **your input has already gone through the log_softmax transformation BEFORE you feed it into the NLL function 
@@ -273,7 +273,7 @@ In this example, When *target = [0,0]*, both ground truth labels belong to the f
    
    Briefly, it calculates: 
 
-<img src="https://render.githubusercontent.com/render/math?math=y=log\sum_e^{x_i}=a %2B log\sum_e^{x_i-a}">
+<img src="https://render.githubusercontent.com/render/math?math=y=log\sum_{i=1}^{k} e^{x_i}=a %2B log\sum_{i=1}^{k} e^{x_i-a}">
 
    Thus avoiding the numerical explosion of e<sup>xi</sup>. More details and derivations are given [here](https://www.xarg.org/2016/06/the-log-sum-exp-trick-in-machine-learning/).
    So shall we use log_softmax + NLL loss or Cross entropy loss moving forward? As explained in [this pytorch discussion thread](https://discuss.pytorch.org/t/trouble-getting-probability-from-softmax/26764/4), 
