@@ -305,10 +305,10 @@ In this example, When *target = [0,0]*, both ground truth labels belong to the f
    - I implemented very basic "train" and "test" functions. 
    - I added an example of inference for non-training data.
    
-## Additional notes for beginner    
+## Additional notes for beginners    
 1. I recommend using conda to install pytorch and related libraries 
 2. If you've never heard of RNN/LSTM, I'd also recommend taking a look at [Colah's blog](https://colah.github.io/posts/2015-08-Understanding-LSTMs/) first.
-3. For more intuitive understanding of negative log loss and softmax function, you can check out [this blogpost](https://ljvmiranda921.github.io/notebook/2017/08/13/softmax-and-the-negative-log-likelihood/).  
+3. For more intuitive understanding of negative log likelihood loss and softmax function, you can check out [this blogpost](https://ljvmiranda921.github.io/notebook/2017/08/13/softmax-and-the-negative-log-likelihood/).  
    
 ## What's next 
 In the next tutorial, I will show the how's and why's of training an LSTM tagger in mini-batches.    
