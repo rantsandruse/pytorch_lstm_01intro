@@ -1,4 +1,4 @@
-# Learning Pytorch in Ten Days: Day 1 - How to train an LSTM tagger 
+# Learning Pytorch in Five Days: Day 1 - How to train an LSTM tagger 
 And the relationship between NLL Loss, cross entropy loss and softmax... 
 
 ##  Introduction 
@@ -19,7 +19,7 @@ So I developed this set of beginner-to-intermediate level tutorials, where I hop
 the whys. Each tutorial will be encapsulated within its own repo, and designed to take less than a day to go through. 
 
 ### Objectives 
-At the end of 10 days, I hope that you will be inspired to: 
+At the end of 5 days, I hope that you will be inspired to: 
 - Understand the theoretical and practical motivations. 
 - Identify the alternatives.
 - Evaluate the trade-offs. 
